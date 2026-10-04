@@ -3,15 +3,19 @@
 import sys
 input = sys.stdin.readline
 
-def dfs(x,y):
-    pass
+def dfs(N, row_cnt):
+    case = 0
+    for col in range(N):
+        iscolused[col], isusedsum[col+row_cnt], isusedminus[col]
+
+
+    return case
 
 tc = input().rstrip()
 
-
 for x in range(tc):
-    case = 0
     N = int(input().rstrip())
-    
-
-    print(f"#{x} {case}")
+    iscolused = [[False] * N for _ in range(N)]
+    isusedsum = [[False] * (2 * N - 1) for _ in range(2 * N - 1)]
+    isusedminus = [[False] * (2 * N - 1) for _ in range(2 * N - 1)]
+    print(f"#{x} {dfs(N, 0)}")
