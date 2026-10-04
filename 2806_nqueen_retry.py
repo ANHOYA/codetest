@@ -5,7 +5,7 @@ input = sys.stdin.readline
 
 def dfs(N, row_cnt):
     case = 0
-    if N == row_cnt: #이거 나중에 다시 잡을 것.
+    if N == row_cnt:
         return 1
     for col in range(N):
         idx_diag = row_cnt+col
@@ -23,4 +23,3 @@ for i in range(tc):
     isdiagonalused = [False] * (2*N-1)
     isreversediagonalused = [False] * (2*N-1)
     print(f"#{i+1} {dfs(N,0)}")
-
