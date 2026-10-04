@@ -6,33 +6,30 @@ input = sys.stdin.readline
 
 def bfs(maze):
     len_maze = len(maze)
-    ego = [1,1]
+    queue = deque([(1, 1)])
     maze[1][1] = 4
-    queue.append(ego)
     while queue:
-        queue.popleft()
+        x, y = queue.popleft()
         for i in range(4):
-            nx = ego[0]+dx[i]
-            ny = ego[1]+dy[i]
-            if maze[nx][ny] == 3:
-                return 1
-            elif maze[nx][ny]==1 or nx < 0 or nx>=len_maze or ny<0 or ny>=len_maze:
+            nx = x + dx[i]
+            ny = y + dy[i]
+            if nx < 0 or nx>=len_maze or ny<0 or ny>=len_maze:
                 continue
+            elif maze[nx][ny] == 1 or maze[nx][ny] == 4:
+                continue
+            elif maze[nx][ny] == 3:
+                return 1
             else:
-                maze[nx][ny] = 
+                maze[nx][ny] = 4
                 queue.append([nx,ny])
-                
+    return 0
 
-
-    
 #도착가능 1 불가능 0
 #상 하 좌 우
 dx = [1, -1, 0, 0]
 dy = [0, 0, -1, 1]
 
-for c in range(10):
+for _ in range(10):
+    tc = int(input().rstrip())
     maze = [list(map(int, input().rstrip())) for _ in range(16)]
-    queue = deque()
-    print(f"#{c+1} {bfs(maze)}")
-    pass
-
+    print(f"#{tc} {bfs(maze)}")
