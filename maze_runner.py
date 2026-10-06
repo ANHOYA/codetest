@@ -7,7 +7,8 @@ def taxi_distance(p1, way_out): #실제 거리와 x, y 거리 간 차이도 반�
     return abs(p1[0]-way_out[0])+abs(p1[1]-way_out[1]), way_out[0]-p1[0], way_out[1]-p1[1]
 
 def move():
-    pop_candidates = []
+    # pop_candidates = []
+    global mileage
     for r_idx, runner in enumerate(runners):
         move_temp = taxi_distance(runner, way_out)
         if move_temp[1] == 0:
@@ -23,14 +24,16 @@ def move():
         else:
             y_sign = -1
         if not(graph[runner[0]+x_sign][runner[1]]) and x_sign: #상화좌우 모두 다 움직일 수 있으면 이게 우선이지/ x가 상하임
-                    runners[r_idx] = [runner[0]+x_sign, runner[1]]
+            runners[r_idx] = [runner[0]+x_sign, runner[1]]
+            mileage += 1
         elif not(graph[runner[0]][runner[1]+y_sign]) and y_sign: 
             runners[r_idx] = [runner[0], runner[1]+y_sign]
+            mileage += 1
         # if runners[r_idx] == way_out:
         #     pop_candidates.append(r_idx)
 
         #여기 매우 중요. 그냥 빼버리면 돌면서 문제 생길 수 있음
-        runners[:] = [runner for runner in runners if runner != way_out]
+    runners[:] = [runner for runner in runners if runner != way_out]
 
 def find_rotation_base_runner():
     base_candidate = (N, N, N) # 정사각형의 (한 변의 좌표 차이, 좌상단 r, 좌상단 c)
@@ -55,20 +58,20 @@ def rotate():
     #돌리고 나서 숫자 1씩 깍기
     for r_idx , row in enumerate(after_rotate):
         for c_idx, c in enumerate(row):
-            if type(c) == 'int' and c>0:
-                c-=1
-            elif type(c) == 'list':
+            if type(c) == int and c>0:
+                after_rotate[r_idx][c_idx] -=1
+            elif type(c) == list:
                 for run_idx, runner in enumerate(runners):
                     if runner == c:
-                        runner[run_idx] = [r_idx+rotate_area[1], c_idx+rotate_area[2]]
+                        runners[run_idx] = [r_idx+rotate_area[1], c_idx+rotate_area[2]]
                 after_rotate[r_idx][c_idx] = 0
             elif c == "exit":
-                way_out = [r_idx+rotate_area[1], c_idx+rotate_area[2]]
+                way_out[:] = [r_idx+rotate_area[1], c_idx+rotate_area[2]]
                 after_rotate[r_idx][c_idx] = 0
 
     #원 그래프에 반환
     for r_idx in range(len(after_rotate)):
-        for c_idx in range(after_rotate):
+        for c_idx in range(len(after_rotate)):
             graph[r_idx+rotate_area[1]][c_idx+rotate_area[2]] = after_rotate[r_idx][c_idx]
         
     
@@ -91,4 +94,5 @@ for t in range(1, K+1):
         break
 
 #출력 조건은 (모든 참가자들의 이동거리 합 / 출구 좌표)
-print(mileage, *way_out)
+print(mileage)
+print(*way_out)
