@@ -5,6 +5,16 @@ import sys
 input = sys.stdin.readline
 
 def dfs(x,y):
+    case = 0
+    judge = []
+    for i in range(4):
+        nx = x+dx[i]
+        ny = y+dy[i]
+        judge.append(graph_visited[nx][ny])
+    if all(judge):
+        return 1
+    if graph[x][y] == N**2:
+        return 1
     for i in range(4):
         nx = x+dx[i]
         ny = y+dy[i]
@@ -12,7 +22,11 @@ def dfs(x,y):
             continue
         if graph_visited[nx][ny] or graph[nx][ny]<graph[x][y]:
             continue
-
+        graph_visited[nx][ny] = True
+        case += dfs(nx,ny)
+        graph_visited[nx][ny] = False
+    return case
+    
 #상 하 좌 우
 dx = [1, -1, 0, 0]
 dy = [0, 0, -1, 1]
@@ -43,5 +57,4 @@ for case in range(tc):
         if temp >= final_result[1]:
             final_result = [[x,y], temp]
 
-    print(graph, graph_visited)
     print(f"#{case+1} {final_result[0]} {final_result[1]}")
