@@ -23,7 +23,7 @@ def isstructureconnected(start,end,dir): #출발, 끝, 방향(1,2,3,4) : 상하�
     else:
         return False
     
-def make_dfs_graph():
+def make_bfs_graph():
     global info_map, R, C, N, M
     graph = [[False]*M for _ in range(N)]
     queue = deque()
@@ -72,5 +72,5 @@ for case in range(tc):
     #N,M<R,C,L( 탈출 후 소요된 시간 L)
     N,M,R,C,L = map(int, input().split())
     info_map = [list(map(int, input().split())) for _ in range(N)]
-    graph = make_dfs_graph()
+    graph = make_bfs_graph()
     print(f"#{case+1} {how_far_from_hole(R,C)}")
